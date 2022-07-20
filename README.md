@@ -1,2 +1,2 @@
-# e-ride-api
+# VWIRE
 API for e-scooter rental.
