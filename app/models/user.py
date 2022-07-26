@@ -12,7 +12,6 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
 from app.database.session import Base
-
 from app.models import role
 
 

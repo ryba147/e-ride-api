@@ -33,7 +33,7 @@ def get_user(email: str, db: Session = Depends(get_db)):
     return user
 
 
-@router.post("/users/", status_code=status.HTTP_201_CREATED)
+@router.post("/users/", response_model=User, status_code=status.HTTP_201_CREATED)
 def create_user(user_data: CreateUser, db: Session = Depends(get_db)):
     user = get_user_by_email(db, user_data.email)
     if user:

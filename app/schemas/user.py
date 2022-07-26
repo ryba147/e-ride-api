@@ -1,20 +1,22 @@
 import uuid
-from typing import Sequence, Optional
+from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 
-# todo: here
-
-class User(BaseModel):
-    id: Optional[uuid.UUID] = uuid.uuid4()
+class UserBase(BaseModel):
     first_name: Optional[str]
     last_name: Optional[str]
-    email: str
+    email: str  # Optional[EmailStr] = None
+    # phone_number: str
+
+
+class User(UserBase):
+    id: Optional[uuid.UUID] = uuid.uuid4()
 
     class Config:
         orm_mode = True
 
 
-class CreateUser(User):
+class CreateUser(UserBase):
     password: str

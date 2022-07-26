@@ -1,2 +1,2 @@
-run-app:
+run:
 	uvicorn app.main:app --reload
