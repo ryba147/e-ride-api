@@ -13,6 +13,8 @@ from sqlalchemy.orm import relationship
 
 from app.database.session import Base
 
+from app.models import role
+
 
 class User(Base):
     __tablename__ = "users"
@@ -25,4 +27,6 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.utc_timestamp())
-    # role_id = Column(UUID(as_uuid=True), ForeignKey("roles.id"))
+    role_id = Column(UUID(as_uuid=True), ForeignKey("roles.id"))
+
+    role = relationship("Role", back_populates="users")

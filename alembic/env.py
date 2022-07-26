@@ -1,3 +1,4 @@
+import sys
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
@@ -5,9 +6,19 @@ from sqlalchemy import pool
 
 from alembic import context
 
+import os
+from dotenv import load_dotenv
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+load_dotenv(os.path.join(BASE_DIR, ".env"))
+sys.path.append(BASE_DIR)
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
+
+# this will override the .ini file sqlalchemy.url path
+config.set_main_option("sqlalchemy.url", os.environ["DATABASE_URL"])
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -25,9 +36,10 @@ if config.config_file_name is not None:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 
+from app.database.session import Base
 from app.models import user
 
-target_metadata = user.Base.metadata
+target_metadata = Base.metadata
 
 
 def run_migrations_offline() -> None:
@@ -42,8 +54,7 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    # url = config.get_main_option("sqlalchemy.url", "postgresql://postgres:password@localhost:5432/vwire_db")
-    url = "postgresql://postgres:password@localhost:5432/vwire_db"
+    url = config.get_main_option("sqlalchemy.url")
     context.configure(
         url=url,
         target_metadata=target_metadata,

@@ -12,10 +12,9 @@ class User(BaseModel):
     last_name: Optional[str]
     email: str
 
+    class Config:
+        orm_mode = True
+
 
 class CreateUser(User):
     password: str
-
-
-class ListUsers(BaseModel):
-    user_list: Sequence[User]

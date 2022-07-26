@@ -1,22 +1,24 @@
+from typing import Optional, List
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from app.crud.crud_user import get_user_by_email
+from app.crud.crud_user import get_user_by_email, get_user_list
 from app.deps import get_db
+from app.schemas.user import User
 
 router = APIRouter(
     prefix="/users", tags=["Users"],
 )
 
 
-# @router.get("/" response_model=ListUsers)
-# def list_users(search_query: Optional[str] = None, limit: Optional[int] = 100):
-#     res = USERS
-#     if search_query:
-#         res = filter(lambda u: search_query.lower() in u["username"].lower(), USERS)
-#     return {"user_list": list(res)[:limit]}
+@router.get("/", response_model=List[User])
+def list_users(limit: Optional[int] = 100, db: Session = Depends(get_db)):
+    users = get_user_list(db)[:limit]
+    return users
 
-@router.get("/{email}")
+
+@router.get("/{email}", response_model=User)
 def get_user(email: str, db: Session = Depends(get_db)):
     user = get_user_by_email(db, email)
     if not user:
@@ -24,6 +26,7 @@ def get_user(email: str, db: Session = Depends(get_db)):
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"User with email {email} not found."
         )
+    return user
 
 # @router.post("/users/")
 # def create_user(user_data: CreateUser):
