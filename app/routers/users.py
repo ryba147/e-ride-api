@@ -3,9 +3,13 @@ from typing import Optional, List
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from app.crud.crud_user import get_user_by_email, get_user_list
+from app.crud.crud_user import (
+    get_user_by_email,
+    get_user_list,
+    create_new_user,
+)
 from app.deps import get_db
-from app.schemas.user import User
+from app.schemas.user import User, CreateUser
 
 router = APIRouter(
     prefix="/users", tags=["Users"],
@@ -28,14 +32,17 @@ def get_user(email: str, db: Session = Depends(get_db)):
         )
     return user
 
-# @router.post("/users/")
-# def create_user(user_data: CreateUser):
-#     hashed_password = get_password_hash(user_data.password)
-#     user = user_data.dict()
-#     user["password"] = hashed_password
-#     user = User(**user)
-#     USERS.append(user.dict())
-#     return user.dict()
+
+@router.post("/users/", status_code=status.HTTP_201_CREATED)
+def create_user(user_data: CreateUser, db: Session = Depends(get_db)):
+    user = get_user_by_email(db, user_data.email)
+    if user:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="User already exists."
+        )
+    new_user = create_new_user(db, user_data)
+    return new_user
 #
 #
 # @router.get("/users/{user_id}", response_model=User)

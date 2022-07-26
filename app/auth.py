@@ -1,11 +1,15 @@
-# pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+from passlib.context import CryptContext
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+
 #
 # def verify_password(plain_paassword, hashed_password):
 #     return pwd_context.verify(plain_paassword, hashed_password)
 #
 #
-# def get_password_hash(password: str):
-#     return pwd_context.hash(password)
+def get_password_hash(password: str):
+    return pwd_context.hash(password)
 #
 #
 # def authenticate_user(username: str, password: str):
