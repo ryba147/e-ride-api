@@ -12,7 +12,8 @@ from app.deps import get_db
 from app.schemas.user import User, CreateUser
 
 router = APIRouter(
-    prefix="/users", tags=["Users"],
+    prefix="/users",
+    tags=["Users"],
 )
 
 
@@ -28,7 +29,7 @@ def get_user(email: str, db: Session = Depends(get_db)):
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"User with email {email} not found."
+            detail=f"User with email {email} not found.",
         )
     return user
 
@@ -38,13 +39,12 @@ def create_user(user_data: CreateUser, db: Session = Depends(get_db)):
     user = get_user_by_email(db, user_data.email)
     if user:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="User already exists."
+            status_code=status.HTTP_400_BAD_REQUEST, detail="User already exists."
         )
     new_user = create_new_user(db, user_data)
     return new_user
-#
-#
+
+
 # @router.get("/users/{user_id}", response_model=User)
 # def get_user(user_id: uuid.UUID):
 #     user = get_user_by_id(user_id)
