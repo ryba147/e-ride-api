@@ -4,7 +4,10 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-SQLALCHEMY_DATABASE_URL = os.environ.get("SQLALCHEMY_DATABASE_URL", None)
+SQLALCHEMY_DATABASE_URL = os.environ.get(
+    "SQLALCHEMY_DATABASE_URL",
+    "postgresql+psycopg2://postgres:password@localhost:5432/vwire_db",
+)
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL,

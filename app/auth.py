@@ -10,6 +10,8 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 #
 def get_password_hash(password: str):
     return pwd_context.hash(password)
+
+
 #
 #
 # def authenticate_user(username: str, password: str):

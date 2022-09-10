@@ -1,7 +1,8 @@
 from fastapi import APIRouter, HTTPException, status
 
 router = APIRouter(
-    prefix="/health", tags=["Health"],
+    prefix="/health",
+    tags=["Health"],
 )
 
 
