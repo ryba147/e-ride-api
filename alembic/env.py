@@ -18,7 +18,7 @@ sys.path.append(BASE_DIR)
 config = context.config
 
 # this will override the .ini file sqlalchemy.url path
-config.set_main_option("sqlalchemy.url", os.environ["DATABASE_URL"])
+config.set_main_option("sqlalchemy.url", os.environ["SQLALCHEMY_DATABASE_URL"])
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
