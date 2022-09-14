@@ -4,7 +4,7 @@ from typing import List
 from sqlalchemy.orm import Session
 from sqlalchemy.engine import Row
 
-from app.utils import get_password_hash, verify_password
+from app.utils import get_password_hash
 from app.models.user import User
 from app.schemas.user import CreateUser
 
