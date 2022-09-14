@@ -4,7 +4,7 @@ from typing import List
 from sqlalchemy.orm import Session
 from sqlalchemy.engine import Row
 
-from app.auth import get_password_hash
+from app.utils import get_password_hash, verify_password
 from app.models.user import User
 from app.schemas.user import CreateUser
 
@@ -23,7 +23,10 @@ def get_user_list(db: Session) -> List[Row]:
 
 def create_new_user(db: Session, user_data: CreateUser):
     hashed_password = get_password_hash(user_data.password)
-    new_user = User(email=user_data.email, password=hashed_password)
+
+    new_user = User(**user_data.dict())
+    new_user.password = hashed_password
+
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
