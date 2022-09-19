@@ -5,7 +5,7 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from app.database.session import SQLALCHEMY_DATABASE_URL
+from app.config import SQLALCHEMY_DATABASE_URL
 
 import os
 
@@ -19,7 +19,6 @@ import os
 # access to the values within the .ini file in use.
 config = context.config
 
-# TODO: move to config file! .from_object(config)
 # this will override the .ini file sqlalchemy.url path
 config.set_main_option("sqlalchemy.url", SQLALCHEMY_DATABASE_URL)
 

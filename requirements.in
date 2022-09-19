@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+greenlet==1.1.2
+
+psycopg2-binary
+sqlalchemy
+alembic
+
+passlib[bcrypt]
+# python-jose
+python-jose[cryptography]
+python-multipart
+
+# removed from local development
+# python-dotenv

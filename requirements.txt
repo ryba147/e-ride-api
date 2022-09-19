@@ -46,10 +46,14 @@ pydantic==1.10.2
     # via fastapi
 python-jose[cryptography]==3.3.0
     # via -r requirements.in
+python-multipart==0.0.5
+    # via -r requirements.in
 rsa==4.9
     # via python-jose
 six==1.16.0
-    # via ecdsa
+    # via
+    #   ecdsa
+    #   python-multipart
 sniffio==1.3.0
     # via anyio
 sqlalchemy==1.4.41
