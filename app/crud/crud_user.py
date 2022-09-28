@@ -4,6 +4,7 @@ from typing import List
 from sqlalchemy.orm import Session
 from sqlalchemy.engine import Row
 
+from app.models.role import Role
 from app.utils import get_password_hash
 from app.models.user import User
 from app.schemas.user import CreateUser
@@ -18,7 +19,7 @@ def get_user_by_id(db: Session, user_id: uuid.UUID) -> Row:
 
 
 def get_user_list(db: Session, limit: int = 100) -> List[Row]:
-    return db.query(User).limit(limit).all()
+    return db.query(User, Role).join(Role).limit(limit).all()
 
 
 def create_new_user(db: Session, user_data: CreateUser):

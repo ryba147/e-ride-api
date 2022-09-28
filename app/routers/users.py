@@ -30,7 +30,7 @@ router = APIRouter(
 
 @router.get("/", response_model=List[User])
 def list_users(limit: Optional[int] = 100, db: Session = Depends(get_db)):
-    users = get_user_list(db)[:limit]
+    users = get_user_list(db, limit)
     return users
 
 

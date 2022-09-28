@@ -14,6 +14,7 @@ class UserBase(BaseModel):
 
 class User(UserBase):
     id: Optional[uuid.UUID] = uuid.uuid4()
+    roles_name: str
 
     class Config:
         orm_mode = True
