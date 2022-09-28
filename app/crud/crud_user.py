@@ -17,8 +17,8 @@ def get_user_by_id(db: Session, user_id: uuid.UUID) -> Row:
     return db.query(User).filter(User.id == user_id).first()
 
 
-def get_user_list(db: Session) -> List[Row]:
-    return db.query(User).all()
+def get_user_list(db: Session, limit: int = 100) -> List[Row]:
+    return db.query(User).limit(limit).all()
 
 
 def create_new_user(db: Session, user_data: CreateUser):

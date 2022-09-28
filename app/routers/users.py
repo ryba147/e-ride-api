@@ -45,28 +45,6 @@ def create_user(user_data: CreateUser, db: Session = Depends(get_db)):
     return new_user
 
 
-# @router.get("/{email}", response_model=User)
-# def get_user(email: str, db: Session = Depends(get_db)):
-#     user = get_user_by_email(db, email)
-#     if not user:
-#         raise HTTPException(
-#             status_code=status.HTTP_404_NOT_FOUND,
-#             detail=f"User with email {email} not found.",
-#         )
-#     return user
-#
-#
-# @router.get("/{user_id}", response_model=User)
-# def get_user(user_id: uuid.UUID, db: Session = Depends(get_db)):
-#     user = get_user_by_id(db, user_id)
-#     if not user:
-#         raise HTTPException(
-#             status_code=status.HTTP_404_NOT_FOUND,
-#             detail=f"User with id {user_id} not found.",
-#         )
-#     return user
-
-
 @router.post("/token", response_model=Token)
 def login_for_access_token(
     form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
@@ -88,3 +66,25 @@ def login_for_access_token(
 @router.get("/me", response_model=User)
 def read_users_me(current_user: User = Depends(get_current_active_user)):
     return current_user
+
+
+@router.get("/{email}", response_model=User)
+def get_user(email: str, db: Session = Depends(get_db)):
+    user = get_user_by_email(db, email)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User with email {email} not found.",
+        )
+    return user
+
+
+@router.get("/{user_id}", response_model=User)
+def get_user(user_id: uuid.UUID, db: Session = Depends(get_db)):
+    user = get_user_by_id(db, user_id)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User with id {user_id} not found.",
+        )
+    return user
