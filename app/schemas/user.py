@@ -1,24 +1,27 @@
 import uuid
-from typing import Optional, Union
+from datetime import datetime
+from typing import Optional
 
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
+
+from app.models.role import Role
 
 
-class UserBase(BaseModel):
+class UserBaseSchema(BaseModel):
     first_name: Optional[str]
     last_name: Optional[str]
-    email: str  # Optional[EmailStr] = None
-    # phone_number: str
-    is_active: bool = None
+    email: str  # EmailStr
+    is_active: bool = True
 
 
-class User(UserBase):
+class CreateUserSchema(UserBaseSchema):
+    password: str
+
+
+class UserResponse(UserBaseSchema):
     id: Optional[uuid.UUID] = uuid.uuid4()
-    roles_name: str
+    created_at: datetime
+    updated_at: datetime
 
     class Config:
         orm_mode = True
-
-
-class CreateUser(UserBase):
-    password: str

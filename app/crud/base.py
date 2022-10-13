@@ -16,7 +16,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         return db.query(self.model).filter(self.model.id == obj_id).first()
 
     def get_list(self, db: Session, skip: int = 0, limit: int = 100):
-        return db.query(self.model).offset(skip).limit(limit).all()
+        return db.query(self.model).limit(limit).all()
 
     def create(self, db: Session, *, obj_data: CreateSchemaType):
         db_obj = self.model(**obj_data.dict())

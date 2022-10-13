@@ -3,16 +3,16 @@ import uuid
 from pydantic import BaseModel
 
 
-class RoleBase(BaseModel):
+class RoleBaseSchema(BaseModel):
     name: str
 
     class Config:
         orm_mode = True
 
 
-class RoleCreate(RoleBase):
+class RoleCreateSchema(RoleBaseSchema):
     pass
 
 
-class RoleUpdate(RoleBase):
+class RoleUpdate(RoleBaseSchema):
     user_id: uuid.UUID

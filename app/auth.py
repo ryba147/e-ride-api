@@ -10,7 +10,7 @@ from app.config import JWT_SECRET_KEY, JWT_ALGORITHM
 from app.crud.crud_user import get_user_by_email
 from app.schemas.auth import TokenData
 
-from app.schemas.user import User
+from app.schemas.user import UserResponse
 from app.utils import verify_password
 from app.deps import get_db
 
@@ -62,7 +62,7 @@ async def get_current_user(
     return user
 
 
-async def get_current_active_user(current_user: User = Depends(get_current_user)):
+async def get_current_active_user(current_user: UserResponse = Depends(get_current_user)):
     if not current_user.is_active:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="Inactive user."

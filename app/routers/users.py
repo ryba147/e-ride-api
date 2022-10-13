@@ -20,7 +20,7 @@ from app.crud.crud_user import (
 )
 from app.deps import get_db
 from app.schemas.auth import Token
-from app.schemas.user import User, CreateUser
+from app.schemas.user import UserResponse, CreateUserSchema
 
 router = APIRouter(
     prefix="/users",
@@ -28,14 +28,14 @@ router = APIRouter(
 )
 
 
-@router.get("/", response_model=List[User])
+@router.get("/", response_model=List[UserResponse])
 def list_users(limit: Optional[int] = 100, db: Session = Depends(get_db)):
     users = get_user_list(db, limit)
     return users
 
 
-@router.post("/", response_model=User, status_code=status.HTTP_201_CREATED)
-def create_user(user_data: CreateUser, db: Session = Depends(get_db)):
+@router.post("/", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+def create_user(user_data: CreateUserSchema, db: Session = Depends(get_db)):
     user = get_user_by_email(db, user_data.email)
     if user:
         raise HTTPException(
@@ -63,12 +63,12 @@ def login_for_access_token(
     return {"access_token": access_token, "token_type": "bearer"}
 
 
-@router.get("/me", response_model=User)
-def read_users_me(current_user: User = Depends(get_current_active_user)):
+@router.get("/me", response_model=UserResponse)
+def read_users_me(current_user: UserResponse = Depends(get_current_active_user)):
     return current_user
 
 
-@router.get("/{email}", response_model=User)
+@router.get("/{email}", response_model=UserResponse)
 def get_user(email: str, db: Session = Depends(get_db)):
     user = get_user_by_email(db, email)
     if not user:
@@ -79,7 +79,7 @@ def get_user(email: str, db: Session = Depends(get_db)):
     return user
 
 
-@router.get("/{user_id}", response_model=User)
+@router.get("/{user_id}", response_model=UserResponse)
 def get_user(user_id: uuid.UUID, db: Session = Depends(get_db)):
     user = get_user_by_id(db, user_id)
     if not user:
