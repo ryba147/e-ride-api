@@ -14,7 +14,7 @@ class UserBaseSchema(BaseModel):
     is_active: bool = True
 
 
-class CreateUserSchema(UserBaseSchema):
+class UserCreateSchema(UserBaseSchema):
     password: str
 
 
