@@ -5,20 +5,20 @@ from pydantic import BaseModel
 
 class RoleBaseSchema(BaseModel):
     name: str
-    code: str
+    description: str
 
 
 class RoleCreateSchema(RoleBaseSchema):
-    pass
+    code: str
 
 
 class RoleUpdateSchema(RoleBaseSchema):
-    # user_id: uuid.UUID
     pass
 
 
 class RoleResponse(RoleBaseSchema):
     id: uuid.UUID
+    code: str
 
     class Config:
         orm_mode = True

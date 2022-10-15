@@ -18,6 +18,10 @@ class UserCreateSchema(UserBaseSchema):
     password: str
 
 
+class UserUpdateSchema(UserBaseSchema):
+    pass
+
+
 class UserResponse(UserBaseSchema):
     id: Optional[uuid.UUID] = uuid.uuid4()
     created_at: datetime

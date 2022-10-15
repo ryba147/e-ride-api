@@ -7,7 +7,7 @@ from jose import jwt, JWTError
 from sqlalchemy.orm import Session
 
 from app.config import JWT_SECRET_KEY, JWT_ALGORITHM
-from app.crud.crud_user import get_user_by_email
+from app.crud.crud_user import user_crud
 from app.schemas.auth import TokenData
 
 from app.schemas.user import UserResponse
@@ -19,7 +19,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/users/token")
 
 
 def authenticate_user(db: Session, email: str, password: str):
-    user = get_user_by_email(db, email)
+    user = user_crud.get_by_email(db, email)
     if not user:
         return False
     if not verify_password(password, user.password):
@@ -56,7 +56,7 @@ async def get_current_user(
     except JWTError:
         raise credentials_exceptions
 
-    user = get_user_by_email(db, token_data.user_email)
+    user = user_crud.get_by_email(db, token_data.user_email)
     if user is None:
         raise credentials_exceptions
     return user

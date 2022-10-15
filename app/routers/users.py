@@ -13,10 +13,7 @@ from app.auth import (
 )
 from app.config import ACCESS_TOKEN_EXPIRE_MINUTES
 from app.crud.crud_user import (
-    get_user_by_email,
-    get_user_list,
-    create_new_user,
-    get_user_by_id,
+    user_crud,
 )
 from app.deps import get_db
 from app.schemas.auth import Token
@@ -30,18 +27,18 @@ router = APIRouter(
 
 @router.get("/", response_model=List[UserResponse])
 def list_users(limit: Optional[int] = 100, db: Session = Depends(get_db)):
-    users = get_user_list(db, limit)
+    users = user_crud.get_list(db, limit)
     return users
 
 
 @router.post("/", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 def create_user(user_data: UserCreateSchema, db: Session = Depends(get_db)):
-    user = get_user_by_email(db, user_data.email)
+    user = user_crud.get_by_email(db, user_data.email)
     if user:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="User already exists."
         )
-    new_user = create_new_user(db, user_data)
+    new_user = user_crud.create(db, user_data)
     return new_user
 
 
@@ -70,7 +67,7 @@ def read_users_me(current_user: UserResponse = Depends(get_current_active_user))
 
 @router.get("/{email}", response_model=UserResponse)
 def get_user(email: str, db: Session = Depends(get_db)):
-    user = get_user_by_email(db, email)
+    user = user_crud.get_by_email(db, email)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -81,7 +78,7 @@ def get_user(email: str, db: Session = Depends(get_db)):
 
 @router.get("/{user_id}", response_model=UserResponse)
 def get_user(user_id: uuid.UUID, db: Session = Depends(get_db)):
-    user = get_user_by_id(db, user_id)
+    user = user_crud.get_by_id(db, user_id)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

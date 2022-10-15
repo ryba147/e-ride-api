@@ -17,7 +17,8 @@ class Role(Base):
         index=True,
         server_default=text("uuid_generate_v4()"),
     )
-    name = Column(String(64))
-    code = Column(String(64))
+    name = Column(String(64), nullable=False)
+    code = Column(String(64), nullable=False, unique=True)
+    description = Column(String(1024))
 
     users = relationship("User", back_populates="role")
