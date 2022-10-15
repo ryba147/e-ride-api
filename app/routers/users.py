@@ -20,7 +20,7 @@ from app.crud.crud_user import (
 )
 from app.deps import get_db
 from app.schemas.auth import Token
-from app.schemas.user import UserResponse, CreateUserSchema
+from app.schemas.user import UserResponse, UserCreateSchema
 
 router = APIRouter(
     prefix="/users",
@@ -35,7 +35,7 @@ def list_users(limit: Optional[int] = 100, db: Session = Depends(get_db)):
 
 
 @router.post("/", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
-def create_user(user_data: CreateUserSchema, db: Session = Depends(get_db)):
+def create_user(user_data: UserCreateSchema, db: Session = Depends(get_db)):
     user = get_user_by_email(db, user_data.email)
     if user:
         raise HTTPException(
