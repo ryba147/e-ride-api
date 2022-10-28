@@ -1,7 +1,7 @@
 import uuid
 from typing import Optional, List
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from starlette import status
 
@@ -34,11 +34,22 @@ def update_role(
     role_id: uuid.UUID, role_data: RoleUpdateSchema, db: Session = Depends(get_db)
 ):
     role = role_crud.get_by_id(db, role_id)
+    if not role:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Role with id {role_id} not found.",
+        )
     updated_role = role_crud.update(db, role, role_data)
     return updated_role
 
 
 @router.delete("/{role_id}", status_code=status.HTTP_204_NO_CONTENT)
 def update_role(role_id: uuid.UUID, db: Session = Depends(get_db)):
-    deleted_role = role_crud.delete(db, role_id)
+    role = role_crud.get_by_id(db, role_id)
+    if not role:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Role with id {role_id} not found.",
+        )
+    role_crud.delete(db, role_id)
     return

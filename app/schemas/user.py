@@ -12,6 +12,7 @@ class UserBaseSchema(BaseModel):
     last_name: Optional[str]
     email: str  # EmailStr
     is_active: bool = True
+    role_id: uuid.UUID
 
 
 class UserCreateSchema(UserBaseSchema):
@@ -23,7 +24,7 @@ class UserUpdateSchema(UserBaseSchema):
 
 
 class UserResponse(UserBaseSchema):
-    id: Optional[uuid.UUID] = uuid.uuid4()
+    id: uuid.UUID
     created_at: datetime
     updated_at: datetime
 
