@@ -1,11 +1,12 @@
 from fastapi import FastAPI
 
-from .routers import health, users
+from app.routers import health, users, roles
 
 app = FastAPI()
 
 app.include_router(health.router)
 app.include_router(users.router)
+app.include_router(roles.router)
 
 if __name__ == "__main__":
     import uvicorn
