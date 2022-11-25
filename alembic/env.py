@@ -33,6 +33,8 @@ if config.config_file_name is not None:
 
 from app.database.session import Base
 from app.models import user
+from app.models import role
+from app.models import scooter
 
 target_metadata = Base.metadata
 
