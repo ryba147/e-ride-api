@@ -22,10 +22,6 @@ class Scooter(Base):
     )
     code = Column(String(64), nullable=False, unique=True, index=True)
     is_active = Column(Boolean, default=True)
-    user_id = Column(UUID(as_uuid=True), ForeignKey("roles.id"))
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"))
 
-    role = relationship("Role", back_populates="users")
-
-    # trip_started_at =
-    # last_location =
-    # battery_percentage =
+    user = relationship("User", back_populates="scooters")

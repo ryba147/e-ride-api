@@ -32,3 +32,4 @@ class User(Base):
     role_id = Column(UUID(as_uuid=True), ForeignKey("roles.id"))
 
     role = relationship("Role", back_populates="users")
+    scooters = relationship("Scooter", back_populates="user")
