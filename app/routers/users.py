@@ -17,6 +17,7 @@ from app.crud.crud_user import (
 )
 from app.deps import get_db
 from app.schemas.auth import Token
+from app.schemas.scooter import ScooterResponse
 from app.schemas.user import UserResponse, UserCreateSchema, UserUpdateSchema
 
 router = APIRouter(
@@ -65,15 +66,15 @@ def read_users_me(current_user: UserResponse = Depends(get_current_active_user))
     return current_user
 
 
-# @router.get("/{email}", response_model=UserResponse)
-# def get_user_by_email(email: str, db: Session = Depends(get_db)):
-#     user = user_crud.get_by_email(db, email)
-#     if not user:
-#         raise HTTPException(
-#             status_code=status.HTTP_404_NOT_FOUND,
-#             detail=f"User with email {email} not found.",
-#         )
-#     return user
+@router.get("/email/{email}", response_model=UserResponse)
+def get_user_by_email(email: str, db: Session = Depends(get_db)):
+    user = user_crud.get_by_email(db, email)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User with email {email} not found.",
+        )
+    return user
 
 
 @router.get("/{user_id}", response_model=UserResponse)
@@ -99,3 +100,14 @@ def update_user_info(
         )
     updated_user = user_crud.update(db, user, user_data)
     return updated_user
+
+
+@router.get("/{user_id}/scooters", response_model=List[ScooterResponse])
+def get_user_scooters(user_id: uuid.UUID, db: Session = Depends(get_db)):
+    user = user_crud.get_by_id(db, user_id)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User with id {user_id} not found.",
+        )
+    return user.scooters
