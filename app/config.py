@@ -2,9 +2,19 @@ import os
 
 from pydantic import BaseSettings
 
+import os
+db_user = os.environ.get("CLOUD_SQL_USERNAME")
+db_password = os.environ.get("CLOUD_SQL_PASSWORD")
+db_name = os.environ.get("CLOUD_SQL_DATABASE_NAME")
+connection_name = os.environ.get("CLOUD_SQL_CONNECTION_NAME")
+
+
 SQLALCHEMY_DATABASE_URL = os.environ.get(
     "SQLALCHEMY_DATABASE_URL",
-    "postgresql+psycopg2://postgres:password@localhost:5432/vwire_db",
+    # "postgresql+psycopg2://postgres:password@localhost:5432/vwire_db",
+    # "postgresql+psycopg2://postgres:TQy3JCICG1pz9jY@@localhost:5432/vwire_db",
+    f"postgresql+psycopg2://{db_user}:{db_password}@/vwire_db",
+    # "postgresql+psycopg2://localhost/vwire_db?user=postgres&password=TQy3JCICG1pz9jY@",
 )
 
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
