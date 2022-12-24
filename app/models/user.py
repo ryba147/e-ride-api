@@ -29,7 +29,5 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     created_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
     updated_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
-    role_id = Column(UUID(as_uuid=True), ForeignKey("roles.id"))
 
-    role = relationship("Role", back_populates="users")
     scooters = relationship("Scooter", back_populates="user")

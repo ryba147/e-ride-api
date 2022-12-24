@@ -1,8 +1,8 @@
-"""scooters table
+"""Scooters table.
 
-Revision ID: 68f69d7efcf8
-Revises: 13626c84e07a
-Create Date: 2022-11-26 00:58:01.774842
+Revision ID: 9df61ddd735d
+Revises: ec5f5ed91e86
+Create Date: 2022-12-24 14:08:39.547815
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = '68f69d7efcf8'
-down_revision = '13626c84e07a'
+revision = '9df61ddd735d'
+down_revision = 'ec5f5ed91e86'
 branch_labels = None
 depends_on = None
 
@@ -23,7 +23,7 @@ def upgrade() -> None:
     sa.Column('code', sa.String(length=64), nullable=False),
     sa.Column('is_active', sa.Boolean(), nullable=True),
     sa.Column('user_id', postgresql.UUID(as_uuid=True), nullable=True),
-    sa.ForeignKeyConstraint(['user_id'], ['roles.id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_scooters_code'), 'scooters', ['code'], unique=True)
