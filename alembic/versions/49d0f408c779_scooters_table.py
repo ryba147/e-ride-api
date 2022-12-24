@@ -1,8 +1,8 @@
 """Scooters table.
 
-Revision ID: 9df61ddd735d
-Revises: ec5f5ed91e86
-Create Date: 2022-12-24 14:08:39.547815
+Revision ID: 49d0f408c779
+Revises: 1c8a262a8c78
+Create Date: 2022-12-24 15:19:15.721176
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = '9df61ddd735d'
-down_revision = 'ec5f5ed91e86'
+revision = '49d0f408c779'
+down_revision = '1c8a262a8c78'
 branch_labels = None
 depends_on = None
 

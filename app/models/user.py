@@ -3,14 +3,14 @@ from sqlalchemy import (
     String,
     func,
     TIMESTAMP,
-    ForeignKey,
     Boolean,
     text,
 )
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.dialects.postgresql import UUID, ENUM
 from sqlalchemy.orm import relationship
 
 from app.database.session import Base
+from app.schemas.user import Roles
 
 
 class User(Base):
@@ -27,6 +27,7 @@ class User(Base):
     last_name = Column(String(64))
     password = Column(String(128))
     is_active = Column(Boolean, default=True)
+    role = Column(ENUM(Roles), default=Roles.DEFAULT)
     created_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
     updated_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
 

@@ -1,8 +1,8 @@
 """Users table.
 
-Revision ID: ec5f5ed91e86
+Revision ID: 1c8a262a8c78
 Revises: 872a345963a9
-Create Date: 2022-12-24 14:07:40.711217
+Create Date: 2022-12-24 15:17:57.202800
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = 'ec5f5ed91e86'
+revision = '1c8a262a8c78'
 down_revision = '872a345963a9'
 branch_labels = None
 depends_on = None
@@ -25,6 +25,7 @@ def upgrade() -> None:
     sa.Column('last_name', sa.String(length=64), nullable=True),
     sa.Column('password', sa.String(length=128), nullable=True),
     sa.Column('is_active', sa.Boolean(), nullable=True),
+    sa.Column('role', postgresql.ENUM('ADMIN', 'DEFAULT', name='roles'), nullable=True),
     sa.Column('created_at', sa.TIMESTAMP(timezone=True), server_default=sa.text('now()'), nullable=True),
     sa.Column('updated_at', sa.TIMESTAMP(timezone=True), server_default=sa.text('now()'), nullable=True),
     sa.PrimaryKeyConstraint('id'),

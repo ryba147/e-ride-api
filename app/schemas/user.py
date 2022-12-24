@@ -1,8 +1,14 @@
 import uuid
 from datetime import datetime
+from enum import Enum
 from typing import Optional
 
 from pydantic import BaseModel
+
+
+class Roles(str, Enum):
+    ADMIN = "ADMIN"
+    DEFAULT = "DEFAULT"
 
 
 class UserBaseSchema(BaseModel):
@@ -10,7 +16,7 @@ class UserBaseSchema(BaseModel):
     last_name: Optional[str]
     email: str  # EmailStr
     is_active: bool = True
-    # role_id: uuid.UUID
+    role: Roles = Roles.DEFAULT
 
 
 class UserCreateSchema(UserBaseSchema):
